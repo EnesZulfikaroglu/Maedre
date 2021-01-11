@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+      <h3>Kontrol Paneli</h3>
+      <hr>
+      <hr>
+      <a href="{% url 'ilan:showIlans' %}" class="w3-btn w3-black w3-hover-blue" style="text-decoration: none">İlanlarım</a>
+      <hr>
+      <a href="{% url 'ilan:addIlan' %}" class="w3-btn w3-black w3-hover-teal" style="text-decoration: none">İlan Ekle</a>
+      <hr>
+  </div>
+</div>
+
+{% endblock body %}

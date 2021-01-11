@@ -1,0 +1,31 @@
+{% extends "msgLayout.html" %}
+
+{% block messageBlock %}
+
+    {% if inboxMessages %}
+            {% for inboxMessage in inboxMessages  %}
+            
+            <br>
+            <div class="w3-text-black w3-text-grey w3-card-4">
+            <div class="w3-panel w3-leftbar w3-rightbar w3-border-black" style="background-color:whitesmoke; color : black;">
+            <a href="{% url 'message:details' inboxMessage.id %}" style="color : black; text-decoration: none">
+            <span class="w3-right w3-opacity">{{inboxMessage.created_date}}</span>
+            <h4 style="color:black">{{inboxMessage.sender.username}} <i class="fa fa-long-arrow-right fa-fw" aria-hidden="true"></i> {{inboxMessage.reciever.username}}</h4>
+
+            <p> {{inboxMessage.content|safe|truncatewords:10}} </p></a>
+
+                </div>
+            </div>
+    <br>
+    {% endfor %}
+    {% else %}
+        <div class="w3-panel w3-leftbar w3-rightbar w3-border-black" style="background-color:whitesmoke; color : black;">
+
+        <h3>Henüz mesaj yok</h3>
+
+        </div>
+    {% endif %}
+    
+    </div>
+    
+{% endblock messageBlock %}

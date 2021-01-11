@@ -1,0 +1,140 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+{% load crispy_forms_tags %}
+
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+
+<!-- Page Container -->
+
+<!-- The Grid -->
+    <div class="w3-row-padding">
+
+    <!-- Left Column -->
+    <div class="w3-third">
+
+
+        <div class="w3-text-black w3-text-grey w3-card-4">
+
+        <div class="w3-display-container" >
+            {% if profile.photo %}
+            <img src="{{ profile.photo.url }}" alt="{{ profile.name }}" style="width:100%">
+            {% endif %}
+
+
+        </div>
+
+            <div class="w3-container">
+                    <div class="w3-container w3-center w3-xlarge w3-text-black">
+                    <h4><b>{{profile.user.username}}</b></h4>
+                    </div>
+                <br>
+                {% if profile.name or profile.surname %}
+                    {% if profile.name %}
+                        <p class=" w3-text-black"><b>Ad:</b> {{profile.name}}</p>
+                    {% if profile.surname %}
+                        <p class=" w3-text-black"><b>Soyad:</b> {{profile.surname}}</p>
+                    {% endif %}
+                    {% endif %}
+                {% endif %}
+
+
+                {% if profile.about %}
+                <p class=" w3-text-black"><b>Hakkında:</b> {{profile.about}}</p>
+                {% else %}
+                <p class=" w3-text-black"><b>Hakkında: </b> -</p>
+                {% endif %}
+
+                <p class=" w3-text-black"><b>Email:</b> {{profile.email}}</p>
+
+                <hr>
+                <div class="w3-container w3-center w3-xlarge w3-text-black">
+                    <h4><b>Sosyal Medya</b></h4>
+                    {% if profile.facebook %}
+                        <a href="https://facebook.com/{{profile.facebook}}" style="color:black"><i class="fa fa-facebook-official w3-hover-opacity"></i></a>
+                    {% endif %}
+                    {% if profile.instagram %}
+                        <a href="https://instagram.com/{{profile.instagram}}" style="color:black"><i class="fa fa-instagram w3-hover-opacity w3-center"></i></a>
+                    {% endif %}
+                    {% if profile.twitter %}
+                        <a href="https://twitter.com/{{profile.twitter}}" style="color:black"><i class="fa fa-twitter w3-hover-opacity"></i></a>
+                    {% endif %}
+                </div>
+
+                <hr>
+
+                <div class="w3-container w3-center w3-xlarge w3-text-black">
+                    <h4><b>Eğitim</b></h4>
+                </div>
+                </p>
+                {% if profile.university %}
+                    <p class=" w3-text-black"><b>Üniversite:</b> {{profile.university}}</p>
+                    <hr>
+                {% else %}
+                    <p class=" w3-text-black"><b>Üniversite:</b> Bilgi yok</p>
+                {% endif %}
+                {% if profile.high_school %}
+                    <p class=" w3-text-black"><b>Lise:</b> {{profile.high_school}}</p>
+                    <hr>
+                {% else %}
+                    <p class=" w3-text-black"><b>Lise:</b> Bilgi yok</p>
+                {% endif %}
+
+                {% if profile.user_id == request.user.id %}
+                <hr>
+                <div class="w3-button w3-block w3-text-black w3-left-align">
+                    <a class="btn w3-text-black" href="{% url 'message:msgIndex' %}">
+                    <i class="fa fa-envelope fa-fw w3-margin-right"></i>
+                        Mesaj Kutusu
+                    </a>
+                </div>
+                <div class="w3-button w3-block w3-text-black w3-left-align">
+                    <a class="btn w3-text-black" href="{% url 'user:updateProfile' profile.user_id %}">
+                    <i class="fa fa-plus fa-fw w3-margin-right"></i>
+                        Profili Düzenle
+                    </a>
+                </div>
+                {% else %}
+                    <hr>
+                <div class="w3-button w3-block w3-text-black w3-left-align">
+                    <a class="btn w3-text-black" href="{% url 'message:sendMessageToUser' profile.user_id %}">
+                    <i class="fa fa-envelope fa-fw w3-margin-right"></i>
+                        Mesaj Gönder
+                    </a>
+                </div>
+                {% endif %}
+
+                <br>
+            </div>
+        </div>
+        <br>
+
+        <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column -->
+    <div class="w3-twothird">
+
+        <form method="post">
+            {% csrf_token %}
+            <div id="div_id_username" class="form-group"> <label for="id_username" class=" requiredField">
+                Kullanıcı Adı:
+                <span class="asteriskField">*</span> 
+                </label> <div class=""> 
+                <input type="text" maxlength="20" class="textinput textInput form-control" placeholder= "{{ username }}" readonly>
+                </div>
+                </div>
+            {{form.media}}
+            {{form|crispy}}
+
+            <button class="w3-button w3-block w3-black w3-hover-teal w3-section w3-padding"
+                    type="submit" value="Click">
+                Gönder
+            </button>
+        </form>
+    </div>
+    </div>
+</div>
+{% endblock body %}

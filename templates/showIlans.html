@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+      <h3>Kontrol Paneli</h3>
+        <hr>
+        <br>
+        {% if ilans %}       
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <!--<th scope="col">id</th>-->
+                        <th scope="col">Başlık</th>
+                        <th scope="col">Sahibi</th>
+                        <th scope="col">Oluşturulma Tarihi</th>
+                        <th scope="col">&nbsp;&nbsp;&nbsp;Düzenle</th>
+                        <th scope="col">&nbsp;&nbsp;Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ilan in ilans %}
+                        <tr>
+                            <!--<th scope="row">{{ilan.id}}</th>-->
+                            <th><a href="{% url 'ilan:details' ilan.id %}" style="color : black;">{{ilan.title}}</a></th>
+                            <th>{{ilan.owner.username}}</th>
+                            <th>{{ilan.created_date}}</th>
+                            <th><a href="{% url 'ilan:update' ilan.id %}" class="btn btn-info">Düzenle</a></th>
+                            <th><a href="{% url 'ilan:delete' ilan.id %}" class="btn btn-danger">Sil</a></th>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+        
+            <div class="alert alert-danger">
+                Henüz İlan vermediniz...
+            </div>
+
+        {% endif %}
+      <hr>
+      <a href="{% url 'ilan:addIlan' %}" class="w3-btn w3-black w3-hover-teal" style="text-decoration: none">İlan Ekle</a>
+  </div>
+</div>
+
+{% endblock body %}

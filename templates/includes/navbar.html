@@ -1,0 +1,76 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href=" {% url 'index' %}" >&nbsp;MAEDRE</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      
+      <li class="nav-item active">
+        <a href="{% url 'index' %}" class="w3-bar-item w3-button w3-large"><i class="fa fa-home"> &nbsp;Anasayfa</i></a>
+      </li>
+      
+      <li class="nav-item">
+        <a href="{% url 'about' %}" class="w3-bar-item w3-button w3-large"><i class="fa fa-info" aria-hidden="true"> &nbsp;Hakkında</i></a>
+      </li>
+
+      <li class="nav-item">
+          <a href="{% url 'ilan:showAll' %}" class="w3-bar-item w3-button w3-large"><i class="fa fa-tags" aria-hidden="true"> &nbsp;İlanlar</i></a>
+        </li>
+
+      {% if request.user.is_authenticated  %}
+      
+        <li class="nav-item">
+          <a href="{% url 'ilan:dashboard' %}" class="w3-bar-item w3-button w3-large"><i class="fa fa-cog" aria-hidden="true"> &nbsp;Kontrol Paneli</i></a>
+        </li>
+      {% else %}
+      {% endif %}
+      
+    </ul>  
+
+    <ul class="navbar-nav ml-auto">
+
+      {% if request.user.is_authenticated %}
+        
+        <li class="nav-item dropdown">
+          <a class="w3-bar-item w3-button w3-large" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+          <i class="fa fa-bars" aria-hidden="true"> &nbsp;Hesap</i>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a style="text-align: center;" class="dropdown-item" href="{% url 'user:profile' request.user.id %}"><i class="fa fa-user" aria-hidden="true"> &nbsp;Profil</i></a>
+            <div class="dropdown-divider"></div>
+            <a style="text-align: center;" class="dropdown-item" href="{% url 'ilan:showIlans' %}"><i class="fa fa-tags" aria-hidden="true"> &nbsp;İlanlarım</i></a>
+            <div class="dropdown-divider"></div>
+            <a style="text-align: center;" class="dropdown-item" href="{% url 'message:msgIndex' %}"><i class="fa fa-envelope" aria-hidden="true"> &nbsp;Mesajlar</i></a>
+          </div>
+        </li>
+
+        <li class="nav-item">
+        <a href="{% url 'user:profile' request.user.id %}" class="w3-bar-item w3-button w3-large"><i class="fa fa-user"> &nbsp;Hoşgeldin, {{request.user.username}}</i></a>
+        </li>  
+
+        <li class="nav-item">
+        <a href="{% url 'user:logout' %}" class="w3-bar-item w3-button w3-large"><i class="fa fa-sign-out"> &nbsp;Çıkış Yap</i></a>
+        </li>  
+
+      {% else %}
+
+        <li class="nav-item">
+        <a href="{% url 'user:register' %}" class="w3-bar-item w3-button w3-large"><i class="fa fa-user-plus"> &nbsp;Kayıt Ol</i></a>
+        </li>
+
+        <li class="nav-item">
+        <a href="{% url 'user:login' %}" class="w3-bar-item w3-button w3-large"><i class="fa fa-sign-in"> &nbsp;Giriş Yap</i></a>
+        </li>
+
+      {% endif %}
+
+      
+
+    
+
+    </ul>
+
+  </div>
+</nav>

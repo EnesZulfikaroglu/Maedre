@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block body %}
+{% load crispy_forms_tags %}
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+      <h3>İlan Ekle</h3>
+    <hr>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.media}}
+        {{form|crispy}}
+        <br>
+        <button class="w3-btn w3-black w3-hover-green" type="submit">İlan Ekle</button>
+        </form>
+  </div>
+</div>
+
+{% endblock body %}

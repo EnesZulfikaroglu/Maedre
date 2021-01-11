@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+{% load crispy_forms_tags %}
+
+<style>
+    label{
+
+font-weight: bold;
+
+}
+</style>
+
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+        <div class="w3-card-4">
+            <div class="w3-container">
+                <h2>Profil Güncelle</h2>
+            </div>
+                <br>
+            <form method="post" enctype="multipart/form-data" class="w3-container">
+            {% csrf_token %}
+            {{form.media}}
+            {{form|crispy}}
+            <br>
+            <button type="submit" class="btn btn-info">Güncelle</button>
+            </form>
+    
+{% endblock body %}

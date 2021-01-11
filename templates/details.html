@@ -1,0 +1,85 @@
+{% extends "layout.html" %} {% block body %}
+
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <div class="row">
+      <!-- Post Content Column -->
+      <div class="col-lg-8">
+        <!-- Title -->
+        <div class="w3-container" >
+          <div class="w3-row">
+              <div class="w3-col m8 s12">
+                  <h2 class="w3-text-black w3-padding-16"><a href="{% url 'ilan:details' ilan.id %}" style="color : black; text-decoration: none">
+                    {{ilan.title}}</a>
+                  </h2>
+              </div>
+              <div class="w3-col m4 w3-hide-small">
+                  <br>
+                  {% if ilan.owner.id == request.user.id %}
+                  <p>
+                      <a href="{% url 'ilan:update' ilan.id %}" class="w3-btn w3-black w3-hover-light-blue" style="text-decoration: none">Düzenle</a>
+                      <a href="{% url 'ilan:delete' ilan.id %}" class="w3-btn w3-black w3-hover-red" style="text-decoration: none">İlanı Sil</a>
+                  </p>
+                  {% else %}
+                      <a href="{% url 'message:sendMessageToUser' ilan.owner.id %}" class="w3-btn w3-black w3-hover-teal" style="text-decoration: none">Mesaj Gönder</a>
+                  {% endif %}
+            </div>
+        </div>
+        <br>
+        <!-- Author -->
+        <p class="lead">
+          <a href="{% url 'user:profile' ilan.owner.id %}" style="text-decoration: none; color: black;"><b>{{ilan.created_date}} - {{ilan.owner.username}}</b></a>
+        </p>
+        <br>
+
+        <!-- Preview Image -->
+        {% if ilan.ilan_image %}
+          <img class="img-fluid rounded" src="{{ilan.ilan_image.url}}" alt="">
+        {% endif %}
+
+        <!-- Post Content -->
+        <p class="lead">
+          {{ilan.content|safe}}
+        </p>
+
+        <!-- Comments -->
+        <h2 class="w3-text-black w3-padding-16">
+          Yorumlar
+        </h2>
+        <hr>
+        {% if comments %}
+          {% for comment in comments%}
+
+            <div class="media mb-4" >
+              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+              <div class="media-body">
+              <h5 class="mt-0">{{comment.comment_user}}</h5>
+                <p>{{comment.comment_created_date}}</p>
+                {{comment.comment_content|safe}}
+              </div>
+            </div>
+            <hr>
+
+          {% endfor %}
+        {% endif %}
+
+        <!-- Comment Form -->
+        <div class="card my-4">
+          <h5 class="card-header">Yorum Ekle</h5>
+          <div class="card-body">
+            <form method="post" action="{% url 'ilan:addComment' ilan.id %}">
+            {% csrf_token %}
+              <div class="form-group">
+                <textarea class="form-control" name="comment_content" placeholder="Yorum giriniz..." rows="3"></textarea>
+              </div>
+                <button class="w3-btn w3-black w3-hover-teal" style="background : black; color : ghostwhite;" type="submit">Ekle</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock body %}

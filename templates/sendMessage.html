@@ -1,0 +1,18 @@
+{% extends "msgLayout.html" %}
+
+{% block messageBlock %}
+
+    {% load crispy_forms_tags %}
+
+        <form method="post">
+            {% csrf_token %}
+            {{form.media}}
+            {{form|crispy}}
+
+            <button class="w3-button w3-block w3-black w3-hover-teal w3-section w3-padding"
+                    type="submit" value="Click">
+                Gönder
+            </button>
+        </form>
+    </div>
+{% endblock messageBlock %}

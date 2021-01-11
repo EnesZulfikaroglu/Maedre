@@ -1,0 +1,178 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+{% load crispy_forms_tags %}
+
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+
+<!-- Page Container -->
+
+<!-- The Grid -->
+    <div class="w3-row-padding">
+
+    <!-- Left Column -->
+    <div class="w3-third">
+
+
+        <div class="w3-text-black w3-text-grey w3-card-4">
+
+        <div class="w3-display-container" >
+            {% if profile.photo %}
+            <img src="{{ profile.photo.url }}" alt="{{ profile.name }}" style="width:100%">
+            {% endif %}
+
+
+        </div>
+
+            <div class="w3-container">
+                    <div class="w3-container w3-center w3-xlarge w3-text-black">
+                    <h4><b>{{user.username}}</b></h4>
+                    </div>
+                <br>
+                {% if profile.name or profile.surname %}
+                    {% if profile.name %}
+                        <p class=" w3-text-black"><b>Ad:</b> {{profile.name}}</p>
+                    {% if profile.surname %}
+                        <p class=" w3-text-black"><b>Soyad:</b> {{profile.surname}}</p>
+                    {% endif %}
+                    {% endif %}
+                {% endif %}
+
+
+                {% if profile.about %}
+                <p class=" w3-text-black"><b>Hakkında:</b> {{profile.about}}</p>
+                {% else %}
+                <p class=" w3-text-black"><b>Hakkında: </b> -</p>
+                {% endif %}
+
+                <p class=" w3-text-black"><b>Email:</b> {{profile.email}}</p>
+
+                <hr>
+                <div class="w3-container w3-center w3-xlarge w3-text-black">
+                    <h4><b>Sosyal Medya</b></h4>
+                    {% if profile.facebook %}
+                        <a href="https://facebook.com/{{profile.facebook}}" style="color:black"><i class="fa fa-facebook-official w3-hover-opacity"></i></a>
+                    {% endif %}
+                    {% if profile.instagram %}
+                        <a href="https://instagram.com/{{profile.instagram}}" style="color:black"><i class="fa fa-instagram w3-hover-opacity w3-center"></i></a>
+                    {% endif %}
+                    {% if profile.twitter %}
+                        <a href="https://twitter.com/{{profile.twitter}}" style="color:black"><i class="fa fa-twitter w3-hover-opacity"></i></a>
+                    {% endif %}
+                </div>
+
+                <hr>
+
+                <div class="w3-container w3-center w3-xlarge w3-text-black">
+                    <h4><b>Eğitim</b></h4>
+                </div>
+                </p>
+                {% if profile.university %}
+                    <p class=" w3-text-black"><b>Üniversite:</b> {{profile.university}}</p>
+                    <hr>
+                {% else %}
+                    <p class=" w3-text-black"><b>Üniversite:</b> Bilgi yok</p>
+                {% endif %}
+                {% if profile.high_school %}
+                    <p class=" w3-text-black"><b>Lise:</b> {{profile.high_school}}</p>
+                    <hr>
+                {% else %}
+                    <p class=" w3-text-black"><b>Lise:</b> Bilgi yok</p>
+                {% endif %}
+
+                {% if profile.user_id == request.user.id %}
+                <hr>
+                <div class="w3-button w3-block w3-text-black w3-left-align">
+                    <a class="btn w3-text-black" href="{% url 'message:msgIndex' %}">
+                    <i class="fa fa-envelope fa-fw w3-margin-right"></i>
+                        Mesaj Kutusu
+                    </a>
+                </div>
+                <div class="w3-button w3-block w3-text-black w3-left-align">
+                    <a class="btn w3-text-black" href="{% url 'user:updateProfile' profile.user_id %}">
+                    <i class="fa fa-plus fa-fw w3-margin-right"></i>
+                        Profili Düzenle
+                    </a>
+                </div>
+                {% else %}
+                    <hr>
+                <div class="w3-button w3-block w3-text-black w3-left-align">
+                    <a class="btn w3-text-black" href="{% url 'message:sendMessageToUser' profile.user_id %}">
+                    <i class="fa fa-envelope fa-fw w3-margin-right"></i>
+                        Mesaj Gönder
+                    </a>
+                </div>
+                {% endif %}
+
+                <br>
+            </div>
+        </div>
+        <br>
+
+        <!-- End Left Column -->
+    </div>
+
+    <!-- Right Column -->
+    <div class="w3-twothird">
+
+
+        {% if ilans %}
+
+        {% for ilan in ilans %}
+
+
+        <div class="w3-container w3-card w3-margin-bottom">
+            <div class="w3-container" >
+                <div class="w3-row">
+                    <div class="w3-col m8 s12">
+                        <h2 class="w3-text-black w3-padding-16"><a href="{% url 'ilan:details' ilan.id %}" style="color : black; text-decoration: none"><i
+                                class="fa fa-eye fa-fw w3-margin-right w3-xlarge w3-text-black"></i>{{ilan.title}}
+                        </h2>
+                    </div>
+                    <div class="w3-col m4 w3-hide-small">
+                        <br>
+
+                        {% if profile.user_id == request.user.id %}
+
+                        <p>
+                            <a href="{% url 'ilan:update' ilan.id %}" class="w3-btn w3-black w3-hover-light-blue" style="text-decoration: none">Düzenle</a>
+                            <a href="{% url 'ilan:delete' ilan.id %}" class="w3-btn w3-black w3-hover-red" style="text-decoration: none">İlanı Sil</a>
+                        </p>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="w3-container w3-text-black">
+                <h6 class="w3-text-black"><i class="fa fa-calendar fa-fw w3-margin-right"></i><b>{{ilan.created_date}}&nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="fa fa-user fa-fw w3-margin-right"></i>{{ilan.owner.username}}</b>
+                </h6>
+                <hr>
+                </h3>{{ilan.content|safe|truncatewords:10}}</h3>
+                <br>
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+        {% else %}
+
+        <div class="w3-panel w3-leftbar w3-rightbar w3-border-black" style="background-color:whitesmoke; color : black;">
+            
+            <h3>Henüz ilan yok</h3>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock body %}
